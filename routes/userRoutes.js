@@ -6,7 +6,7 @@ const {
   registerUser,
   authUser,
 } = require("../controllers/userControllers");
-const { getAllProducts, addProduct } = require("../controllers/productController");
+const { getAllProducts, addProduct, getSingleProduct } = require("../controllers/productController");
 
 const router = express.Router();
 
@@ -15,4 +15,5 @@ router.route("/").post(registerUser);
 router.post("/login", authUser);
 router.get('/products',getAllProducts)
 router.post("/product/addProduct", protect, addProduct);
+router.post('/getProduct/:id',getSingleProduct)
 module.exports = router;

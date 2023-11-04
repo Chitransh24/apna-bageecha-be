@@ -51,4 +51,13 @@ const getAllProducts = asyncHandler(async(req, res)=>{
     res.send(product)
 })
 
-module.exports = { addProduct, getAllProducts };
+const getSingleProduct=asyncHandler(async(req,res)=>
+{
+  const product=await Product.findOne({_id:req.params.id})
+  if(product)
+  {
+    return res.status(200).json({product:product})
+  }
+})
+
+module.exports = { addProduct, getAllProducts,getSingleProduct };
