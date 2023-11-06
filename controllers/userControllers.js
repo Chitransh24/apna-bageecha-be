@@ -73,5 +73,24 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid Email or Password");
   }
 });
+const addToCart= asyncHandler(async(req,res)=>
+{
+  const user = await User.findById({ _id: req.user._id });
+  if(!user)
+  {
+    res.status(400)
+    throw new Error("User not found");
+  }
+  const cartItem=user.cartItem.find((item)=>item.product.toString() === req.params.id)
+  if(cartItem)
+  {
+    cartItem.quantity += 1
+  }
+  else{
+    user.cartItems.push({product:req.params.id})
+  }
+  const newUser=await user.save()
+  res.status(200).json({newUser:newUser})
+})
 
-module.exports = { allUsers, registerUser, authUser };
+module.exports = { allUsers, registerUser, authUser,addToCart };

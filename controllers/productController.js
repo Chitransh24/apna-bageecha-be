@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/productModel");
+const User=require('../models/userModel')
 const addProduct = asyncHandler(async (req, res) => {
   const {
     isActive,
@@ -59,5 +60,6 @@ const getSingleProduct=asyncHandler(async(req,res)=>
     return res.status(200).json({product:product})
   }
 })
+
 
 module.exports = { addProduct, getAllProducts,getSingleProduct };

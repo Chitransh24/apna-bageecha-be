@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Product=require('./productModel')
 const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema(
@@ -12,6 +13,12 @@ const userSchema = mongoose.Schema(
       default:
         "https://www.google.com/url?sa=i&url=https%3A%2F%2Fdribbble.com%2Fsearch%2Fprofile-image-placeholder&psig=AOvVaw2cpi5MWy_AuIxbFAN3elE2&ust=1698784145569000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCMiWy57OnoIDFQAAAAAdAAAAABAE",
     },
+    cartItems: [
+      {
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product"},
+        quantity:{type:Number,default:1}
+      },
+    ],
   },
   { timestaps: true }
 );
