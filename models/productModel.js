@@ -10,7 +10,7 @@ const productSchema = mongoose.Schema(
     quantity: { type: Number, default: 1 },
     isWishlisted: { type: Boolean, default: false },
   },
-  { timestaps: true }
+  { timestamps: true }
 );
 
 const Product = mongoose.model("Product", productSchema);
