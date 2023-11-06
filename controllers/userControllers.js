@@ -75,32 +75,34 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 const addToCart = asyncHandler(async (req, res) => {
-  const user = await User.findById({ _id: req.user._id });
-  if (!user) {
-    res.status(400);
-    throw new Error("User not found");
-  }
-  const product = await Product.findById({ _id: req.params.id });
-  {
-    if (product) {
-      const cartItem = user.cartItem.find(
-        (item) => item.product.toString() === req.params.id
-      );
-      if (cartItem) {
-        cartItem.quantity += 1;
-      } else {
-        user.cartItems.push({ product: req.params.id });
-      }
-      const newUser = await user.save();
-    res.status(200).json({ newUser: newUser });
+  try {
+    const user = await User.findById({ _id: req.user._id });
+    if (!user) {
+      res.status(400);
+      throw new Error("User not found");
     }
-    else
+    const product = await Product.findById({ _id: req.params.id });
     {
-      res.status(400)
-      throw new Error('Product not Found')
+      if (product) {
+        const cartItem = user.cartItem.find(
+          (item) => item.product.toString() === req.params.id
+        );
+        if (cartItem) {
+          cartItem.quantity += 1;
+        } else {
+          user.cartItems.push({ product: req.params.id });
+        }
+        const newUser = await user.save();
+        res.status(200).json({ newUser: newUser });
+      } else {
+        res.status(400);
+        throw new Error("Product not Found");
+      }
     }
+  } catch (err) {
+    res.status(500)
+    throw new Error(err)
   }
-
 });
 
 module.exports = { allUsers, registerUser, authUser, addToCart };
