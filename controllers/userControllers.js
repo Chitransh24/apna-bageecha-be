@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
+const Product = require("../models/productModel");
 
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
@@ -46,7 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
       pic: user.pic,
       token: generateToken(user._id),
-      password:user.password
+      password: user.password,
     });
   } else {
     res.status(400);
@@ -73,24 +74,33 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid Email or Password");
   }
 });
-const addToCart= asyncHandler(async(req,res)=>
-{
+const addToCart = asyncHandler(async (req, res) => {
   const user = await User.findById({ _id: req.user._id });
-  if(!user)
-  {
-    res.status(400)
+  if (!user) {
+    res.status(400);
     throw new Error("User not found");
   }
-  const cartItem=user.cartItem.find((item)=>item.product.toString() === req.params.id)
-  if(cartItem)
+  const product = await Product.findById({ _id: req.params.id });
   {
-    cartItem.quantity += 1
+    if (product) {
+      const cartItem = user.cartItem.find(
+        (item) => item.product.toString() === req.params.id
+      );
+      if (cartItem) {
+        cartItem.quantity += 1;
+      } else {
+        user.cartItems.push({ product: req.params.id });
+      }
+      const newUser = await user.save();
+    res.status(200).json({ newUser: newUser });
+    }
+    else
+    {
+      res.status(400)
+      throw new Error('Product not Found')
+    }
   }
-  else{
-    user.cartItems.push({product:req.params.id})
-  }
-  const newUser=await user.save()
-  res.status(200).json({newUser:newUser})
-})
 
-module.exports = { allUsers, registerUser, authUser,addToCart };
+});
+
+module.exports = { allUsers, registerUser, authUser, addToCart };
