@@ -49,7 +49,14 @@ const addProduct = asyncHandler(async (req, res) => {
 const getAllProducts = asyncHandler(async(req, res)=>{
     const product = await Product.find({});
         // console.log(product)
-    res.send(product)
+    if(product)
+    {
+      return res.status(200).json({products:product})
+    }
+    else
+    {
+      return res.status(400).json({message:'no products'})
+    }
 })
 
 const getSingleProduct=asyncHandler(async(req,res)=>

@@ -84,7 +84,7 @@ const addToCart = asyncHandler(async (req, res) => {
     const product = await Product.findById({ _id: req.params.id });
     {
       if (product) {
-        const cartItem = user.cartItem.find(
+        const cartItem = user.cartItems.find(
           (item) => item.product.toString() === req.params.id
         );
         if (cartItem) {
