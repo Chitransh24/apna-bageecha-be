@@ -19,6 +19,11 @@ const userSchema = mongoose.Schema(
         quantity:{type:Number,default:1}
       },
     ],
+    wishListed:[
+      {
+        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product"},
+      }
+    ]
   },
   { timestaps: true }
 );

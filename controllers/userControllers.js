@@ -103,6 +103,35 @@ const addToCart = asyncHandler(async (req, res) => {
     res.status(500)
     throw new Error(err)
   }
-});
+})
 
-module.exports = { allUsers, registerUser, authUser, addToCart };
+const addToWishlist=asyncHandler(async(req,res)=>
+{
+   try{
+    const user = await User.findById({ _id: req.user._id });
+    if(!user)
+    {
+      return res.status(500).json({message:'user not found'})
+    }
+    const product=await product.findById({_id:req.params.id})
+    if(product)
+    {
+      if(user.wishListed.some(item=>item.product.toString()===req.params.id))
+      {
+        return res.json({message:'product already in wishlist'})
+      }
+      else
+      {
+        user.wishListed.push({product:req.params.id})
+      }
+      const newUser=await user.save()
+      return res.status(200).json({message:'added to wishlist',newUser})
+    }
+   }
+   catch(err)
+   {
+       return res.status(500).json(err)
+   }
+})
+
+module.exports = { allUsers, registerUser, authUser, addToCart ,addToWishlist};
