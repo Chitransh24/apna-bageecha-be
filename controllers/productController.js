@@ -27,7 +27,6 @@ const addProduct = asyncHandler(async (req, res) => {
     description,
     price,
     quantity,
-    isWishlisted,
   });
   if (product) {
     res.status(201).json({
@@ -38,7 +37,6 @@ const addProduct = asyncHandler(async (req, res) => {
       description: product.description,
       price: product.price,
       quantity: product.quantity,
-      isWishlisted: product.isWishlisted,
     });
   } else {
     res.status(400);
@@ -48,7 +46,7 @@ const addProduct = asyncHandler(async (req, res) => {
 
 const getAllProducts = asyncHandler(async(req, res)=>{
     const product = await Product.find({});
-        // console.log(product)
+        
     if(product)
     {
       return res.status(200).json({products:product})
