@@ -3,6 +3,7 @@ const connectDB = require("./config/db");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes")
+const paymentRoutes = require("./routes/paymentRoutes")
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
 const cors = require("cors");
@@ -17,6 +18,7 @@ app.use(cors())
 app.use(express.json()); // to accept json data
 app.use("/api/user", userRoutes);
 app.use("/api/product",productRoutes);
+app.use("/api/payment",paymentRoutes);
 app.listen(PORT, console.log(`Server running on PORT ${PORT}...`));
 // app.use("/api/chat", chatRoutes);
 // app.use("/api/message", messageRoutes);
