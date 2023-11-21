@@ -6,6 +6,9 @@ const {
   registerUser,
   authUser,
   addToCart,
+  addToWishlist,
+  getCartItems,
+  getWishItems,
 } = require("../controllers/userControllers");
 const { getAllProducts, addProduct, getSingleProduct } = require("../controllers/productController");
 
@@ -18,4 +21,7 @@ router.get('/products',getAllProducts)
 router.post("/product/addProduct", protect, addProduct);
 router.post('/getProduct/:id',getSingleProduct)
 router.post('/addToCart/:id',protect,addToCart)
+router.patch('/addToWishList/:id',protect,addToWishlist)
+router.get('/getCart',protect,getCartItems)
+router.get('/getWishList',protect,getWishItems)
 module.exports = router;
