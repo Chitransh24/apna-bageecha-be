@@ -19,8 +19,8 @@ const payment = asyncHandler(async (req, res) => {
           quantity: item.quantity
         };
       }),
-      success_url:"http://localhost:5000/success",
-      cancel_url:"http://localhost:5000/cancel"
+      success_url:"http://localhost:5000/",
+      cancel_url:"http://localhost:5000/product"
     });
 
     res.json({url:session.url})

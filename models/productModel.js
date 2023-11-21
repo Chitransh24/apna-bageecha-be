@@ -9,9 +9,8 @@ const productSchema = mongoose.Schema(
     price: { type: Number, required: true, required: true },
     quantity: { type: Number, default: 1 },
     isWishlisted: { type: Boolean, default: false },
-    category: { type: Array, default: [] },
-  },
-  { timestaps: true }
+    category: { type: Array, default: [] },  },
+  { timestamps: true }
 );
 
 const Product = mongoose.model("Product", productSchema);
