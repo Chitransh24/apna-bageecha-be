@@ -3,6 +3,11 @@ const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
 const Product = require("../models/productModel");
 
+// const changePassword = asyncHandler(async (req,res)=>{
+// const user = 
+
+// })
+
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
