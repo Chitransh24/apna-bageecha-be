@@ -41,6 +41,7 @@ const addProduct = asyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error("Failed to create this product, Try again!");
+    throw new Error("Failed to create this product, Try again!");
   }
 });
 
@@ -61,10 +62,33 @@ const getSingleProduct = asyncHandler(async (req, res) => {
   }
 });
 
+const updateProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    res.status(404);
+    throw new Error("Product not Found");
+  }
 
+  if (product._id.toString() !== req.body._id) {
+    res.status(403);
+    throw new Error(
+      "This user don't have permission to operate on this product "
+    );
+  }
+  // const updatedProduct =await Product.findByIdAndUpdate(
+  //   req.params.id,
+  //   req.body,
+  //   {new:true}
+  // )
+  // res.status(200).json(updatedProduct);
+
+  console.log(req.body, "baady");
+  // console.log(updatedProduct,"oihdfg")
+  console.log(product._id.toString());
+});
 module.exports = {
   addProduct,
   getAllProducts,
   getSingleProduct,
- 
+  updateProduct,
 };
