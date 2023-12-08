@@ -3,6 +3,11 @@ const User = require("../models/userModel");
 const generateToken = require("../config/generateToken");
 const Product = require("../models/productModel");
 
+// const changePassword = asyncHandler(async (req,res)=>{
+// const user =
+
+// })
+
 const allUsers = asyncHandler(async (req, res) => {
   const keyword = req.query.search
     ? {
@@ -52,6 +57,26 @@ const registerUser = asyncHandler(async (req, res) => {
   } else {
     res.status(400);
     throw new Error("User not found");
+  }
+});
+
+const forgotPassword = asyncHandler(async (req, res) => {
+  const { email, password, newPassword, confirmNewPassword } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("User does not exists.");
+  } else {
+    if (await user.matchPassword(password)) { 
+      if (newPassword === confirmNewPassword) {
+        res.json({
+          password: newPassword,
+        });
+      } else {
+        throw new Error("Password does not match.");
+      }
+    } else {
+      throw new Error("Current password does not match.");
+    }
   }
 });
 
@@ -167,4 +192,5 @@ module.exports = {
   addToWishlist,
   getCartItems,
   getWishItems,
+  forgotPassword,
 };

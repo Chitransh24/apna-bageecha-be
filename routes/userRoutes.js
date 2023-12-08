@@ -9,6 +9,7 @@ const {
   addToWishlist,
   getCartItems,
   getWishItems,
+  forgotPassword,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.post("/addToCart/:id", protect, addToCart);
 router.patch("/addToWishList/:id", protect, addToWishlist);
 router.get("/getCart", protect, getCartItems);
 router.get("/getWishList", protect, getWishItems);
+router.post("/forgotPassword", forgotPassword);
 
 module.exports = router;
